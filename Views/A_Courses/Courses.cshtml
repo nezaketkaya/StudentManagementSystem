@@ -1,0 +1,27 @@
+﻿<form>
+    <div class="form-group">
+        <label for="courseName">Course Name:</label>
+        <input type="text" class="form-control" id="courseName" name="courseName" required>
+    </div>
+
+    <div class="form-group">
+        <label for="courseDay">Day:</label>
+        <select class="form-control" id="courseDay" name="courseDay" required>
+            <option value="" selected disabled>Select day</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="courseTime">Time:</label>
+        <input type="time" class="form-control" id="courseTime" name="courseTime" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
