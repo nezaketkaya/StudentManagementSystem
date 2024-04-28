@@ -1,0 +1,79 @@
+﻿<form>
+            <div class="form-group">
+                <label for="studentSelect">Öğrenci Seçimi:</label>
+                <select class="form-control" id="studentSelect" name="student">
+                    <option value="">Öğrenci Seçiniz</option>
+                    <!-- Öğrencilerin dinamik olarak listelendiği option elemanları -->
+                    <option value="1">Öğrenci 1</option>
+                    <option value="2">Öğrenci 2</option>
+                    <option value="3">Öğrenci 3</option>
+                    <!-- Diğer öğrenci seçenekleri -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="courseSelect">Ders Seçimi:</label>
+                <select class="form-control" id="courseSelect" name="course">
+                    <option value="">Ders Seçiniz</option>
+                    <!-- Derslerin dinamik olarak listelendiği option elemanları -->
+                    <option value="1">Ders 1</option>
+                    <option value="2">Ders 2</option>
+                    <option value="3">Ders 3</option>
+                    <!-- Diğer ders seçenekleri -->
+                </select>
+            </div>
+
+
+
+<!-- 1., 2. ve 3. sınav seçeneklerinin bulunduğu checkboxlar -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Sınavlar:</label><br>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="sinav1" name="sinav" value="1">
+                            <label class="form-check-label" for="sinav1">1. Sınav</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="sinav2" name="sinav" value="2">
+                            <label class="form-check-label" for="sinav2">2. Sınav</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="sinav3" name="sinav" value="3">
+                            <label class="form-check-label" for="sinav3">3. Sınav</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- Sınavlara göre ilgili giriş alanlarını göstermek için div'ler -->
+                    <div id="sinav1Input" style="display: none;">
+                        <label for="sinav1Not">1. Sınav Notu:</label>
+                        <input type="text" class="form-control" id="sinav1Not" name="sinav1Not">
+                    </div>
+
+                    <div id="sinav2Input" style="display: none;">
+                        <label for="sinav2Not">2. Sınav Notu:</label>
+                        <input type="text" class="form-control" id="sinav2Not" name="sinav2Not">
+                    </div>
+
+                    <div id="sinav3Input" style="display: none;">
+                        <label for="sinav3Not">3. Sınav Notu:</label>
+                        <input type="text" class="form-control" id="sinav3Not" name="sinav3Not">
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+    $('input[type="checkbox"][name="sinav"]').change(function() {
+        var sinavValue = $(this).val();
+        $('#sinav' + sinavValue + 'Input').toggle(this.checked);
+    });
+});
+</script>

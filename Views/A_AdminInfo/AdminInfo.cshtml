@@ -1,5 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@model StudentManagementSystem.Models.Admin
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,23 +9,67 @@
 <body>
 
     <div class="container mt-5">
-        <h2>Personal Information</h2>
+        <h2>Info</h2>
 
         <div class="row">
             <div class="col-md-4">
-                <img src="[Photo URL]" class="img-fluid" alt="User Photo">
+                <img src="" class="img-fluid" alt="User Photo">
             </div>
             <div class="col-md-8">
                 <div>
-                    <p><strong>Name-Surname:</strong> [Name-Surname]</p>
-                    <p><strong>E-mail:</strong> [E-mail]</p>
-                    <p><strong>Phone:</strong> [Phone]</p>
-                    <p><strong>Date of Birth:</strong> [Date of Birth]</p>
-                    <p><strong>Address:</strong> [Address]</p>
-                </div>
+                    <p><strong>Name-Surname:</strong> @ViewBag.AdminInfo.NameSurname</p>
+                    <p><strong>E-mail:</strong> @ViewBag.AdminInfo.Email</p>
+                    <p><strong>Phone:</strong> @ViewBag.AdminInfo.Phone</p>
+                    <p><strong>Date of Birth:</strong> @ViewBag.AdminInfo.DateOfBirth.ToString("dd-MM-yyyy")</p>
+                    <p><strong>Address:</strong> @ViewBag.AdminInfo.Address</p>
+                 
+                    <button class="btn btn-primary edit-button">Edit</button>
+
+                    <form method="post" asp-action="AdminInfoEdit">
+                       <div>
+                            <input type="text" id="nameSurname" name="NameSurname" value="@ViewBag.AdminInfo.NameSurname" style="display: none;">
+                       </div> 
+                       <div>
+                            <input type="email" id="email" name="Email" value="@ViewBag.AdminInfo.Email" style="display: none;">
+                       </div>
+                       <div>
+                            <input type="text" id="phone" name="Phone" value="@ViewBag.AdminInfo.Phone" style="display: none;">
+                       </div>
+                       <div>
+                            <input type="date" id="dateOfBirth" name="DateOfBirth" value="@ViewBag.AdminInfo.DateOfBirth.ToString("yyyy-MM-dd")" style="display: none;">
+                       </div>
+                       <div>
+                            <input type="text" id="address" name="Address" value="@ViewBag.AdminInfo.Address" style="display: none;">
+                       </div>
+
+                        <button class="btn btn-success save-button" style="display: none;">Save</button>
+                    </form>
+
+                </div> 
             </div>
         </div>
     </div>
 
 </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.edit-button').click(function () {
+            var container = $(this).parent();
+            container.find('p').show();
+            container.find('input').show();
+            container.find('.edit-button').hide();
+            container.find('.save-button').show();
+        });
+
+        $('.save-button').click(function () {
+            var container = $(this).parent();
+            container.find('p').show();
+            container.find('input').hide();
+            container.find('.edit-button').show();
+            container.find('.save-button').hide();
+        });
+    });
+</script>

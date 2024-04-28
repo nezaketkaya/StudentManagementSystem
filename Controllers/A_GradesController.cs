@@ -2,9 +2,9 @@
 
 namespace StudentManagementSystem.Controllers
 {
-    public class A_Announcement : Controller
+    public class A_GradesController : Controller
     {
-        public IActionResult Announcement()
+        public IActionResult GradeManagement()
         {
             return View();
         }
