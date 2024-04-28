@@ -16,6 +16,7 @@ namespace StudentManagementSystem.Utils
                 string directory = Directory.GetCurrentDirectory() + "/wwwroot" + filePath + fileName;
                 using (var stream = new FileStream(directory, FileMode.Create))
                 {
+
                     formFile.CopyTo(stream);
                 }
             }

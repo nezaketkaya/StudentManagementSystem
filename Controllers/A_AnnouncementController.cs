@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentManagementSystem.Models;
 using StudentManagementSystem.Utils;
+using Microsoft.AspNetCore.Http;
 
 namespace StudentManagementSystem.Controllers
 {
@@ -14,7 +15,7 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult AnnouncementList()
+        public IActionResult AnnouncementPage()
         {
             return View();
         }
@@ -28,7 +29,7 @@ namespace StudentManagementSystem.Controllers
                 announcement.File = FileHelper.FileLoader(formFile);
                 _context.Announcements.Add(announcement);
                 _context.SaveChanges();
-                return View();
+                return RedirectToAction("AnnouncementPage");
             }
             return View();
         }
