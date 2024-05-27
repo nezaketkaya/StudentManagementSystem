@@ -18,7 +18,7 @@ namespace StudentManagementSystem.Controllers
         [HttpGet]
         public IActionResult AdminInfo()
         {
-            var admin = _context.Admins.FirstOrDefault();
+            var admin = _context.Admins.FromSqlRaw("SELECT TOP 1 * FROM Admins").FirstOrDefault();
             ViewBag.AdminInfo = admin;
             return View();
         }
@@ -29,23 +29,31 @@ namespace StudentManagementSystem.Controllers
         {
             if (ModelState.IsValid)
             {
-                var admin = _context.Admins.FirstOrDefault();
+                string sql = @"
+                UPDATE Admins
+                SET 
+                  NameSurname = {0}, 
+                  Email = {1}, 
+                  Phone = {2}, 
+                  DateOfBirth = {3}, 
+                  Address = {4}
+                WHERE Id = (SELECT TOP 1 Id FROM Admins)";
 
-                    admin.NameSurname = adm.NameSurname;
-                    admin.Email = adm.Email;
-                    admin.Phone = adm.Phone;
-                    admin.DateOfBirth = adm.DateOfBirth;
-                    admin.Address = adm.Address;
+                _context.Database.ExecuteSqlRaw(
+                    sql,
+                    adm.NameSurname,
+                    adm.Email,
+                    adm.Phone,
+                    adm.DateOfBirth,
+                    adm.Address
+                );
 
-                    _context.SaveChanges();
-
-                    TempData["SuccessMessage"] = "Personal information updated successfully.";
-
-                    return RedirectToAction("AdminInfo");
+                TempData["SuccessMessage"] = "Personal information updated successfully.";
+                return RedirectToAction("AdminInfo");
             }
             return View("AdminInfo");
-
         }
+
 
     }
 }

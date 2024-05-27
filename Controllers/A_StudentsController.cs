@@ -17,7 +17,7 @@ namespace StudentManagementSystem.Controllers
         [HttpGet]
         public IActionResult StudentInfo()
         {
-            var students = _context.Students.ToList();
+            var students = _context.Students.FromSqlRaw("SELECT * FROM Students").ToList();
             ViewBag.StudentsInfo = students;
 
             return View();
@@ -30,9 +30,22 @@ namespace StudentManagementSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    newStudent.Role = "student";
-                    _context.Students.Add(newStudent);
-                    _context.SaveChanges();
+                    string sql = @"
+                INSERT INTO Students (Number, NameSurname, Gender, DateOfBirth, Phone, Email, Address, Password, Role)
+                VALUES ({0}, {1}, {2}, {3})";
+
+                    _context.Database.ExecuteSqlRaw(
+                        sql,
+                        newStudent.Number,
+                        newStudent.NameSurname,
+                        newStudent.Gender,
+                        newStudent.DateOfBirth,
+                        newStudent.Phone,
+                        newStudent.Email,
+                        newStudent.Address,
+                        newStudent.Password,
+                        "student" 
+                    );
 
                     TempData["SuccessMessage"] = "Student has been successfully saved.";
 
@@ -50,6 +63,7 @@ namespace StudentManagementSystem.Controllers
                 return View("Error");
             }
         }
+
 
         [HttpPost]
         public IActionResult DeleteStds(List<int> selectedStudents)

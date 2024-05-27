@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Models;
 
 namespace StudentManagementSystem.Controllers
@@ -6,15 +7,15 @@ namespace StudentManagementSystem.Controllers
     public class A_CoursesController : Controller
     {
         private readonly AppDbContext _context;
-
         public A_CoursesController(AppDbContext context)
         {
             _context = context;
         }
         public IActionResult CourseManagement()
         {
-            var courses = _context.Courses.ToList();
+            var courses = _context.Courses.FromSqlRaw("SELECT * FROM Courses").ToList();
             ViewBag.Courses = courses;
+
             return View();
         }
 
@@ -25,16 +26,24 @@ namespace StudentManagementSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Courses.Add(course);
-                    _context.SaveChanges();
+                     string sql = @"
+                     INSERT INTO Courses (Title, Day, Time)
+                     VALUES ({0}, {1}, {2})";
 
-                    TempData["SuccessMessage"] = "Student has been successfully saved.";
+                     _context.Database.ExecuteSqlRaw(
+                        sql,
+                        course.Title,
+                        course.Day,
+                        course.Time
+                    );
+
+                    TempData["SuccessMessage"] = "Course has been successfully saved.";
 
                     return RedirectToAction("CourseManagement");
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "Student could not be saved. Please check your inputs.";
+                    TempData["ErrorMessage"] = "Course could not be saved. Please check your inputs.";
 
                     return View(course);
                 }
@@ -45,6 +54,7 @@ namespace StudentManagementSystem.Controllers
             }
         }
 
+
         [HttpPost]
         public IActionResult DeleteCourse(List<int> selectedCourses)
         {
@@ -52,15 +62,14 @@ namespace StudentManagementSystem.Controllers
             {
                 foreach (var courseId in selectedCourses)
                 {
-                    var course = _context.Courses.FirstOrDefault(c => c.Id == courseId);
-                    if (course != null)
-                    {
-                        _context.Courses.Remove(course);
-                    }
+                    string sql = "DELETE FROM Courses WHERE Id = {0}";
+
+                    _context.Database.ExecuteSqlRaw(sql, courseId);
                 }
                 _context.SaveChanges();
             }
             return RedirectToAction("CourseManagement");
         }
+
     }
 }
