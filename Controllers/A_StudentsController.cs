@@ -42,7 +42,7 @@ namespace StudentManagementSystem.Controllers
                 {
                     TempData["ErrorMessage"] = "Student could not be saved. Please check your inputs.";
 
-                    return View(newStudent);
+                    return RedirectToAction("StudentInfo");
                 }
             }
             catch (Exception ex)
@@ -52,18 +52,20 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteStds(Student student)
+        public IActionResult DeleteStds(List<int> selectedStudents)
         {
-            var students = _context.Students.Find(student.Id);
-            if (students != null)
+            if (selectedStudents != null && selectedStudents.Any())
             {
-                _context.Students.Remove(students);
-
+                foreach (var studentId in selectedStudents)
+                {
+                    var students = _context.Students.FirstOrDefault(c => c.Id == studentId);
+                    if (students != null)
+                    {
+                        _context.Students.Remove(students);
+                    }
+                }
                 _context.SaveChanges();
-
-                return RedirectToAction("StudentInfo");
             }
-
             return RedirectToAction("StudentInfo");
         }
 

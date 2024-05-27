@@ -13,7 +13,7 @@
     </div>
 }
 
-<form asp-action="AddStudent">
+<form id="studentForm" asp-action="AddStudent">
     <div class="row">
         <div class="col-md-4">
 
@@ -50,7 +50,7 @@
 
             <div class="form-group">
                 <label asp-for="Email">E-mail:</label>
-                <input type="text" asp-for="Email" class="form-control" required>
+                <input type="email" asp-for="Email" class="form-control" required>
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
@@ -71,9 +71,11 @@
     </div>
 </form>
 
+<form method="post" asp-action="DeleteStds">
 <table class="table">
     <thead>
         <tr>
+             <th>Select</th>
             <th>Number</th>
             <th>Name - Surname</th>
             <th>Gender</th>
@@ -88,6 +90,9 @@
         @foreach (var students in ViewBag.StudentsInfo)
         {
             <tr>
+                <td>
+                    <input type="checkbox" name="selectedStudents" value="@students.Id" />
+                </td>
                 <td>@students.Number</td>
                 <td>@students.NameSurname</td>
                 <td>@students.Gender</td>
@@ -101,11 +106,88 @@
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
-               
             </tr>
-
         }
     </tbody>
- 
-
 </table>
+<button type="submit" class="btn btn-danger">Delete Selected Students</button>
+</form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('studentForm');
+
+            form.querySelector('[name="Number"]').addEventListener('input', function (event) {
+                var input = event.target;
+                var validationMessage = input.nextElementSibling;
+                if (input.value.trim() === '') {
+                    validationMessage.textContent = 'Number is required';
+                } else {
+                    validationMessage.textContent = '';
+                }
+            });
+
+            form.querySelector('[name="NameSurname"]').addEventListener('input', function (event) {
+                var input = event.target;
+                var validationMessage = input.nextElementSibling;
+                if (input.value.trim() === '') {
+                    validationMessage.textContent = 'Name - Surname is required';
+                } else {
+                    validationMessage.textContent = '';
+                }
+            });
+
+            form.querySelectorAll('[name="Gender"]').forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    var validationMessage = form.querySelector('[name="Gender"]').parentElement.querySelector('.text-danger');
+                    if (!form.querySelector('[name="Gender"]:checked')) {
+                        validationMessage.textContent = 'Gender is required';
+                    } else {
+                        validationMessage.textContent = '';
+                    }
+                });
+            });
+
+            form.querySelector('[name="DateOfBirth"]').addEventListener('input', function (event) {
+                var input = event.target;
+                var validationMessage = input.nextElementSibling;
+                if (input.value.trim() === '') {
+                    validationMessage.textContent = 'Date of Birth is required';
+                } else {
+                    validationMessage.textContent = '';
+                }
+            });
+
+            form.querySelector('[name="Email"]').addEventListener('input', function (event) {
+                var input = event.target;
+                var validationMessage = input.nextElementSibling;
+                var emailPattern = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                if (!emailPattern.test(input.value.trim())) {
+                    validationMessage.textContent = 'Invalid email format';
+                } else {
+                    validationMessage.textContent = '';
+                }
+            });
+
+            form.querySelector('[name="Phone"]').addEventListener('input', function (event) {
+                var input = event.target;
+                var validationMessage = input.nextElementSibling;
+                var phonePattern = /^\d{10}$/;
+                if (!phonePattern.test(input.value.trim())) {
+                    validationMessage.textContent = 'Invalid phone number. It should contain 10 digits';
+                } else {
+                    validationMessage.textContent = '';
+                }
+            });
+
+            form.querySelector('[name="Address"]').addEventListener('input', function (event) {
+                var input = event.target;
+                var validationMessage = input.nextElementSibling;
+                if (input.value.trim() === '') {
+                    validationMessage.textContent = 'Address is required';
+                } else {
+                    validationMessage.textContent = '';
+                }
+            });
+        });
+    </script>

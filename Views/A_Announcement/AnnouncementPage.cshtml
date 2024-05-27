@@ -20,6 +20,7 @@
             <div class="form-group">
                 <label asp-for="File">PDF File:</label>
                 <input type="file" asp-for="File" class="form-control-file">
+                <span asp-validation-for="File" class="text-danger"></span>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>

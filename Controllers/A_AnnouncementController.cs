@@ -21,14 +21,14 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateAnnouncement(Announcement announcement, IFormFile formFile)
+        public async Task<IActionResult> CreateAnnouncement(Announcement announcement, IFormFile File)
         {
             if (ModelState.IsValid)
             {
                 announcement.Date = DateTime.Now;
-                announcement.File = FileHelper.FileLoader(formFile);
+                announcement.File = FileHelper.FileLoader(File);
                 _context.Announcements.Add(announcement);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return RedirectToAction("AnnouncementPage");
             }
             return View();
