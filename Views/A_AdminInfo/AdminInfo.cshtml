@@ -1,5 +1,11 @@
 ﻿@model StudentManagementSystem.Models.Admin
 
+
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,38 +23,65 @@
             </div>
             <div class="col-md-8">
                 <div>
-                    <p><strong>Name-Surname:</strong> @ViewBag.AdminInfo.NameSurname</p>
-                    <p><strong>E-mail:</strong> @ViewBag.AdminInfo.Email</p>
-                    <p><strong>Phone:</strong> @ViewBag.AdminInfo.Phone</p>
-                    <p><strong>Date of Birth:</strong> @ViewBag.AdminInfo.DateOfBirth.ToString("dd-MM-yyyy")</p>
-                    <p><strong>Address:</strong> @ViewBag.AdminInfo.Address</p>
-                 
+                    <p class="view-mode"><strong>Name-Surname:</strong> @ViewBag.AdminInfo.NameSurname</p>
+                    <p class="view-mode"><strong>E-mail:</strong> @ViewBag.AdminInfo.Email</p>
+                    <p class="view-mode"><strong>Phone:</strong> @ViewBag.AdminInfo.Phone</p>
+                    <p class="view-mode"><strong>Date of Birth:</strong> @ViewBag.AdminInfo.DateOfBirth.ToString("dd-MM-yyyy")</p>
+                    <p class="view-mode"><strong>Address:</strong> @ViewBag.AdminInfo.Address</p>
+
                     <button class="btn btn-primary edit-button">Edit</button>
+                  
+                    <form id="adminEditForm" method="post" asp-action="AdminInfoEdit" class="mt-3">
+                    <div class="form-group row edit-mode" style="display: none;">
+                        <label asp-for="NameSurname" class="col-sm-3 col-form-label"><strong>Name-Surname:</strong></label>
+                        <div class="col-sm-9">
+                                <input asp-for="NameSurname" value="@ViewBag.AdminInfo.NameSurname" class="form-control">
+                            <span asp-validation-for="NameSurname" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row edit-mode" style="display: none;">
+                        <label asp-for="Email" class="col-sm-3 col-form-label"><strong>E-mail:</strong></label>
+                        <div class="col-sm-9">
+                                <input asp-for="Email" value="@ViewBag.AdminInfo.Email" class="form-control">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row edit-mode" style="display: none;">
+                        <label asp-for="Phone" class="col-sm-3 col-form-label"><strong>Phone:</strong></label>
+                        <div class="col-sm-9">
+                                <input asp-for="Phone" value="@ViewBag.AdminInfo.Phone" class="form-control">
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row edit-mode" style="display: none;">
+                        <label asp-for="DateOfBirth" class="col-sm-3 col-form-label"><strong>Date of Birth:</strong></label>
+                        <div class="col-sm-9">
+                            <input asp-for="DateOfBirth" value="@ViewBag.AdminInfo.DateOfBirth.ToString("yyyy-MM-dd")" class="form-control" type="date">
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row edit-mode" style="display: none;">
+                        <label asp-for="Address" class="col-sm-3 col-form-label"><strong>Address:</strong></label>
+                        <div class="col-sm-9">
+                                <input asp-for="Address" value="@ViewBag.AdminInfo.Address" class="form-control">
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row edit-mode" style="display: none;">
+                        <label asp-for="Password" class="col-sm-3 col-form-label"><strong>Password:</strong></label>
+                        <div class="col-sm-9">
+                                <input asp-for="Password" value="@ViewBag.AdminInfo.Password" class="form-control">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
 
-                    <form method="post" asp-action="AdminInfoEdit">
-                       <div>
-                            <input type="text" id="nameSurname" name="NameSurname" value="@ViewBag.AdminInfo.NameSurname" style="display: none;">
-                       </div> 
-                       <div>
-                            <input type="email" id="email" name="Email" value="@ViewBag.AdminInfo.Email" style="display: none;">
-                       </div>
-                       <div>
-                            <input type="text" id="phone" name="Phone" value="@ViewBag.AdminInfo.Phone" style="display: none;">
-                       </div>
-                       <div>
-                            <input type="date" id="dateOfBirth" name="DateOfBirth" value="@ViewBag.AdminInfo.DateOfBirth.ToString("yyyy-MM-dd")" style="display: none;">
-                       </div>
-                       <div>
-                            <input type="text" id="address" name="Address" value="@ViewBag.AdminInfo.Address" style="display: none;">
-                       </div>
+                    <button type="submit" class="btn btn-success save-button edit-mode" style="display: none;">Save</button>
+                </form>
 
-                        <button class="btn btn-success save-button" style="display: none;">Save</button>
-                    </form>
-
-                </div> 
             </div>
         </div>
     </div>
+</div>
 
 </body>
 </html>
@@ -57,19 +90,84 @@
 <script>
     $(document).ready(function () {
         $('.edit-button').click(function () {
-            var container = $(this).parent();
-            container.find('p').show();
-            container.find('input').show();
-            container.find('.edit-button').hide();
-            container.find('.save-button').show();
+            $('.view-mode').hide();
+            $('.edit-mode').show();
+            $(this).hide();
         });
 
         $('.save-button').click(function () {
-            var container = $(this).parent();
-            container.find('p').show();
-            container.find('input').hide();
-            container.find('.edit-button').show();
-            container.find('.save-button').hide();
+            $('.view-mode').show();
+            $('.edit-mode').hide();
+            $('.edit-button').show();
         });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('adminEditForm');
+
+        form.querySelector('[name="NameSurname"]').addEventListener('input', function (event) {
+            var input = event.target;
+            var validationMessage = input.nextElementSibling;
+            if (input.value.trim() === '') {
+                validationMessage.textContent = 'Name - Surname is required';
+            } else {
+                validationMessage.textContent = '';
+            }
+        });
+
+        form.querySelector('[name="Email"]').addEventListener('input', function (event) {
+            var input = event.target;
+            var validationMessage = input.nextElementSibling;
+            var emailPattern = /^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!emailPattern.test(input.value.trim())) {
+                validationMessage.textContent = 'Invalid email format';
+            } else {
+                validationMessage.textContent = '';
+            }
+        });
+
+        form.querySelector('[name="Phone"]').addEventListener('input', function (event) {
+            var input = event.target;
+            var validationMessage = input.nextElementSibling;
+            var phonePattern = /^\d{10}$/;
+            if (!phonePattern.test(input.value.trim())) {
+                validationMessage.textContent = 'Invalid phone number. It should contain 10 digits';
+            } else {
+                validationMessage.textContent = '';
+            }
+        });
+
+        form.querySelector('[name="DateOfBirth"]').addEventListener('input', function (event) {
+            var input = event.target;
+            var validationMessage = input.nextElementSibling;
+            if (input.value.trim() === '') {
+                validationMessage.textContent = 'Date of Birth is required';
+            } else {
+                validationMessage.textContent = '';
+            }
+        });
+
+        form.querySelector('[name="Address"]').addEventListener('input', function (event) {
+            var input = event.target;
+            var validationMessage = input.nextElementSibling;
+            if (input.value.trim() === '') {
+                validationMessage.textContent = 'Address is required';
+            } else {
+                validationMessage.textContent = '';
+            }
+        });
+
+        form.querySelector('[name="Password"]').addEventListener('input', function (event) {
+            var input = event.target;
+            var validationMessage = input.nextElementSibling;
+            if (input.value.trim() === '') {
+                validationMessage.textContent = 'Password is required';
+            } else {
+                validationMessage.textContent = '';
+            }
+        });
+
     });
 </script>

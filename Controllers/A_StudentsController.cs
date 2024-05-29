@@ -32,7 +32,7 @@ namespace StudentManagementSystem.Controllers
                 {
                     string sql = @"
                 INSERT INTO Students (Number, NameSurname, Gender, DateOfBirth, Phone, Email, Address, Password, Role)
-                VALUES ({0}, {1}, {2}, {3})";
+                VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8})";
 
                     _context.Database.ExecuteSqlRaw(
                         sql,
@@ -64,7 +64,6 @@ namespace StudentManagementSystem.Controllers
             }
         }
 
-
         [HttpPost]
         public IActionResult DeleteStds(List<int> selectedStudents)
         {
@@ -72,17 +71,15 @@ namespace StudentManagementSystem.Controllers
             {
                 foreach (var studentId in selectedStudents)
                 {
-                    var students = _context.Students.FirstOrDefault(c => c.Id == studentId);
-                    if (students != null)
-                    {
-                        _context.Students.Remove(students);
-                    }
+                    // SQL DELETE komutu
+                    string sql = "DELETE FROM Students WHERE Id = @p0";
+
+                    // SQL sorgusunu çalıştır
+                    _context.Database.ExecuteSqlRaw(sql, studentId);
                 }
-                _context.SaveChanges();
             }
             return RedirectToAction("StudentInfo");
         }
-
 
     }
 }

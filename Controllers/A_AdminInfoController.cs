@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StudentManagementSystem.Models;
-using StudentManagementSystem.ViewModels;
 using System.Net;
 
 namespace StudentManagementSystem.Controllers

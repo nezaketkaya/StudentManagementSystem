@@ -1,5 +1,10 @@
 ﻿@model StudentManagementSystem.Models.Student
 
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success">
