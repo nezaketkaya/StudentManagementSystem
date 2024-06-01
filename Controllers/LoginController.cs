@@ -22,57 +22,23 @@ namespace StudentManagementSystem.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Login(Student student, string ReturnUrl)
+        public IActionResult Login(string number, string password)
         {
-            var userInformations = _context.Students.FirstOrDefault(u => u.Number == student.Number && u.Password == student.Password);
-
-
-            if (userInformations != null) 
+            var student = _context.Students.FirstOrDefault(s => s.Number == number && s.Password == password);
+            if (student != null)
             {
-                var claims = new List<Claim>()
-                {
-                    new Claim(ClaimTypes.Name,student.Number)
-                };
-                var userIdentity = new ClaimsIdentity(claims, "Login");
-                ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
-                await HttpContext.SignInAsync(principal);
-
+                HttpContext.Session.SetInt32("StudentId", student.Id); // Store student ID in session
                 return RedirectToAction("StudentInfo", "S_StudentInfo");
-
             }
             else
             {
-                TempData["ErrorMessage"] = "Phone or password is wrong.";
-            }
-            return View();
+                ViewBag.Error = "Invalid email or password.";
+                return View();
+            };
         }
-
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
-        }
-        /*
-        [HttpPost]
-        public IActionResult Login(LoginDto loginDto)
-        {
-            if (ModelState.IsValid)
-            {
-                var student = _context.Students.SingleOrDefault(u => u.Number == loginDto.Number && u.Password == loginDto.Password);
-
-                if (student != null)
-                {
-                    return RedirectToAction("StudentInfo", "S_StudentInfo");
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = "Phone or password is wrong.";
-                }
-            }
-            return View(loginDto);
-        }
-        */
+        
         [HttpGet]
         public IActionResult LoginAdmin()
         {

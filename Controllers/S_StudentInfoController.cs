@@ -17,13 +17,18 @@ namespace StudentManagementSystem.Controllers
         [HttpGet]
         public IActionResult StudentInfo()
         {
-            var studentId = Convert.ToInt32(HttpContext.User.Identity.Name);
+            var studentId = HttpContext.Session.GetInt32("StudentId");
+            if (studentId == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
 
-            var student = _context.Students.SingleOrDefault(s => s.Id == studentId);
-            
-            ViewBag.StudentInfos = student;
-
-            return View();
+            var student = _context.Students.FirstOrDefault(s => s.Id == studentId);
+            if (student != null)
+            {
+                 return View(student);
+            }
+           return RedirectToAction("Login", "Login");
         }
     }
 }

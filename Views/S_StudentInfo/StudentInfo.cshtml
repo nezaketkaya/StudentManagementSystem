@@ -4,35 +4,16 @@
     Layout = "~/Views/Shared/StudentLayout.cshtml";
 }
 
+@{
+    ViewBag.Title = "StudentInfo";
+}
+
 <h2>Student Information</h2>
 
-<table class="table">
-    <tr>
-        <th>Number</th>
-        <td>@ViewBag.StudentInfos.Number</td>
-    </tr>
-    <tr>
-        <th>Name-Surname</th>
-        <td>@ViewBag.StudentInfos.NameSurname</td>
-    </tr>
-    <tr>
-        <th>Gender</th>
-        <td>@ViewBag.StudentInfos.Gender</td>
-    </tr>
-    <tr>
-        <th>Date of Birth</th>
-        <td>@ViewBag.StudentInfos.DateOfBirth.ToString("dd-MM-yyyy")</td>
-    </tr>
-    <tr>
-        <th>Phone</th>
-        <td>@ViewBag.StudentInfos.Phone</td>
-    </tr>
-    <tr>
-        <th>Email</th>
-        <td>@ViewBag.StudentInfos.Email</td>
-    </tr>
-    <tr>
-        <th>Address</th>
-        <td>@ViewBag.StudentInfos.Address</td>
-    </tr>
-</table>
+<p>Email: @Model.Number</p>
+<p>Name: @Model.NameSurname</p>
+<p>Gender: @Model.Gender</p>
+<p>Date of Birth: @Model.DateOfBirth.ToShortDateString()</p>
+<p>Phone: @Model.Phone</p>
+<p>Address: @Model.Email</p>
+<p>Address: @Model.Address</p>

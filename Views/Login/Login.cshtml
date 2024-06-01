@@ -1,4 +1,4 @@
-﻿@model StudentManagementSystem.Models.Dtos.LoginDto
+﻿@model StudentManagementSystem.Models.Student
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -12,22 +12,28 @@
         @TempData["ErrorMessage"]
     </div>
 }
-<div class="row">
-    <div class="col-md-6">
-        <form method="post" asp-action="Login">
-            <div class="form-group">
-                <label asp-for="Number">Student Number:</label>
-                <input type="text" asp-for="Number" class="form-control" required>
-                <span asp-validation-for="Number" class="text-danger"></span>
-            </div>
+@{
+    ViewBag.Title = "Login";
+}
+@{
+    ViewBag.Title = "Login";
+}
 
-            <div class="form-group">
-                <label asp-for="Password">Password:</label>
-                <input type="password" class="form-control" asp-for="Password" required></input>
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+<h2>Login</h2>
 
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+<form method="post" action="/Login/Login">
+    <div>
+        <label>Student Number:</label>
+        <input type="text" name="number" required />
     </div>
-</div>
+    <div>
+        <label>Password:</label>
+        <input type="text" name="password" required />
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div style="color:red">@ViewBag.Error</div>
+}
