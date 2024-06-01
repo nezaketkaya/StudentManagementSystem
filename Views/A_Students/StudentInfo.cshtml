@@ -17,7 +17,6 @@
         @TempData["ErrorMessage"]
     </div>
 }
-
 <form id="studentForm" asp-action="AddStudent">
     <div class="row">
         <div class="col-md-4">
@@ -27,13 +26,45 @@
                 <input type="text" asp-for="Number" class="form-control" />
                 <span asp-validation-for="Number" class="text-danger"></span>
             </div>
-
+            <p></p>
             <div class="form-group">
                 <label asp-for="NameSurname" class="control-label">Name - Surname:</label>
                 <input type="text" asp-for="NameSurname" class="form-control" />
                 <span asp-validation-for="NameSurname" class="text-danger"></span>
             </div>
+            <p></p>
+            <div class="form-group">
+                <label asp-for="DateOfBirth">Date of Birth:</label>
+                <input type="date" asp-for="DateOfBirth" class="form-control" required>
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label asp-for="Email">E-mail:</label>
+                <input type="email" asp-for="Email" class="form-control" required>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
 
+        </div>
+        <div class="col-md-4 offset-md-2">
+            <div class="form-group">
+                <label asp-for="Phone">Phone:</label>
+                <input type="text" asp-for="Phone" class="form-control" required>
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label asp-for="Address">Address:</label>
+                <textarea asp-for="Address" class="form-control" required></textarea>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <p></p>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Password:</label>
+                <input type="text" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <p></p>
             <div class="form-group">
                 <label asp-for="Gender" class="control-label">Gender:</label>
                 <div class="form-check form-check-inline">
@@ -46,43 +77,19 @@
                 </div>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="DateOfBirth">Date of Birth:</label>
-                <input type="date" asp-for="DateOfBirth" class="form-control" required>
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Email">E-mail:</label>
-                <input type="email" asp-for="Email" class="form-control" required>
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Phone">Phone:</label>
-                <input type="text" asp-for="Phone" class="form-control" required>
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Address">Address:</label>
-                <textarea asp-for="Address" class="form-control" required></textarea>
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Password" class="control-label">Password:</label>
-                <input type="text" asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <p></p>
+            <button type="submit" class="btn btn-primary">Add Student</button>
         </div>
     </div>
 </form>
+<p></p>
+<hr style="border: 1px solid lightblue;">
 
 <form method="post" asp-action="DeleteStds">
+     <div class="form-group">
+        <input type="text" id="searchNumber" placeholder="Search by Number" oninput="searchByNumber()">
+        <input type="text" id="searchNameSurname" placeholder="Search by Name Surname" oninput="searchByNameSurname()">
+    </div>
 <table class="table">
     <thead>
         <tr>
@@ -95,7 +102,6 @@
             <th>Phone</th>
             <th>Address</th>
             <th>Password</th>
-            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -112,13 +118,7 @@
                 <td>@students.Email</td>
                 <td>@students.Phone</td>
                 <td>@students.Address</td>
-                <td>@students.Password</td>
-                <td>
-                    <form method="post" asp-action="DeleteStds" asp-controller="A_Students">
-                        <input type="hidden" name="Id" value="@students.Id" />
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
+                <td>@students.Password</td
             </tr>
         }
     </tbody>
@@ -215,3 +215,45 @@
 
         });
     </script>
+
+  <script>
+    function searchByNumber() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchNumber");
+        filter = input.value.toUpperCase();
+        table = document.querySelector("table");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function searchByNameSurname() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchNameSurname");
+        filter = input.value.toUpperCase();
+        table = document.querySelector("table");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().startsWith(filter)) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+   </script>

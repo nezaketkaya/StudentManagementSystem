@@ -1,84 +1,75 @@
-﻿@{
+﻿@model StudentManagementSystem.Models.ViewModel.GradeViewModel
+
+
+@{
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
+@{
+    ViewData["Title"] = "Grade Management";
+}
 
-<form>
+<h1>Grade Management</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="SelectStudentCourse" method="post">
             <div class="form-group">
-                <label for="studentSelect">Öğrenci Seçimi:</label>
-                <select class="form-control" id="studentSelect" name="student">
-                    <option value="">Öğrenci Seçiniz</option>
-                    <!-- Öğrencilerin dinamik olarak listelendiği option elemanları -->
-                    <option value="1">Öğrenci 1</option>
-                    <option value="2">Öğrenci 2</option>
-                    <option value="3">Öğrenci 3</option>
-                    <!-- Diğer öğrenci seçenekleri -->
+                <label asp-for="StudentId" class="control-label">Select Student</label>
+                <select asp-for="StudentId" class="form-control" asp-items="@(new SelectList(Model.Students, "Id", "NameSurname"))">
+                    <option value="">-- Select Student --</option>
                 </select>
             </div>
-
             <div class="form-group">
-                <label for="courseSelect">Ders Seçimi:</label>
-                <select class="form-control" id="courseSelect" name="course">
-                    <option value="">Ders Seçiniz</option>
-                    <!-- Derslerin dinamik olarak listelendiği option elemanları -->
-                    <option value="1">Ders 1</option>
-                    <option value="2">Ders 2</option>
-                    <option value="3">Ders 3</option>
-                    <!-- Diğer ders seçenekleri -->
+                <label asp-for="CourseId" class="control-label">Select Course</label>
+                <select asp-for="CourseId" class="form-control" asp-items="@(new SelectList(Model.Courses, "Id", "Title"))">
+                    <option value="">-- Select Course --</option>
                 </select>
             </div>
-
-
-
-<!-- 1., 2. ve 3. sınav seçeneklerinin bulunduğu checkboxlar -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Sınavlar:</label><br>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="sinav1" name="sinav" value="1">
-                            <label class="form-check-label" for="sinav1">1. Sınav</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="sinav2" name="sinav" value="2">
-                            <label class="form-check-label" for="sinav2">2. Sınav</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="sinav3" name="sinav" value="3">
-                            <label class="form-check-label" for="sinav3">3. Sınav</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <!-- Sınavlara göre ilgili giriş alanlarını göstermek için div'ler -->
-                    <div id="sinav1Input" style="display: none;">
-                        <label for="sinav1Not">1. Sınav Notu:</label>
-                        <input type="text" class="form-control" id="sinav1Not" name="sinav1Not">
-                    </div>
-
-                    <div id="sinav2Input" style="display: none;">
-                        <label for="sinav2Not">2. Sınav Notu:</label>
-                        <input type="text" class="form-control" id="sinav2Not" name="sinav2Not">
-                    </div>
-
-                    <div id="sinav3Input" style="display: none;">
-                        <label for="sinav3Not">3. Sınav Notu:</label>
-                        <input type="text" class="form-control" id="sinav3Not" name="sinav3Not">
-                    </div>
-                </div>
-            </div>
-
-
+            <button type="submit" class="btn btn-primary">Load Grades</button>
+        </form>
     </div>
-</form>
+</div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+@if (Model.Grades != null && Model.Grades.Any())
+{
+    <h2>Grades</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var grade in Model.Grades)
+            {
+                <tr>
+                    <td>@grade.Title</td>
+                    <td>@grade.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
-    $(document).ready(function() {
-    $('input[type="checkbox"][name="sinav"]').change(function() {
-        var sinavValue = $(this).val();
-        $('#sinav' + sinavValue + 'Input').toggle(this.checked);
-    });
-});
-</script>
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="AddGrade" method="post">
+            <input type="hidden" asp-for="StudentId" />
+            <input type="hidden" asp-for="CourseId" />
+            <input type="hidden" asp-for="NewGrade.StudentCourseId" />
+            <div class="form-group">
+                <label asp-for="NewGrade.Title" class="control-label">Grade Title</label>
+                <input asp-for="NewGrade.Title" class="form-control" />
+                <span asp-validation-for="NewGrade.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewGrade.Value" class="control-label">Grade Value</label>
+                <input asp-for="NewGrade.Value" class="form-control" />
+                <span asp-validation-for="NewGrade.Value" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Grade</button>
+        </form>
+    </div>
+</div>

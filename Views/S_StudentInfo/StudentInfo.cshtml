@@ -10,10 +10,41 @@
 
 <h2>Student Information</h2>
 
-<p>Email: @Model.Number</p>
-<p>Name: @Model.NameSurname</p>
-<p>Gender: @Model.Gender</p>
-<p>Date of Birth: @Model.DateOfBirth.ToShortDateString()</p>
-<p>Phone: @Model.Phone</p>
-<p>Address: @Model.Email</p>
-<p>Address: @Model.Address</p>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                    <tr>
+                        <th scope="row" style="width: 30%">Email</th>
+                        <td>@Model.Number</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td>@Model.NameSurname</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Gender</th>
+                        <td>@Model.Gender</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Date of Birth</th>
+                        <td>@Model.DateOfBirth.ToShortDateString()</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Phone</th>
+                        <td>@Model.Phone</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td>@Model.Email</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Address</th>
+                        <td>@Model.Address</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

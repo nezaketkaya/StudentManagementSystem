@@ -7,7 +7,6 @@ namespace StudentManagementSystem.Models
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Course> Courses { get; set; }

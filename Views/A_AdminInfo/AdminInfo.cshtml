@@ -23,11 +23,47 @@
             </div>
             <div class="col-md-8">
                 <div>
-                    <p class="view-mode"><strong>Name-Surname:</strong> @ViewBag.AdminInfo.NameSurname</p>
-                    <p class="view-mode"><strong>E-mail:</strong> @ViewBag.AdminInfo.Email</p>
-                    <p class="view-mode"><strong>Phone:</strong> @ViewBag.AdminInfo.Phone</p>
-                    <p class="view-mode"><strong>Date of Birth:</strong> @ViewBag.AdminInfo.DateOfBirth.ToString("dd-MM-yyyy")</p>
-                    <p class="view-mode"><strong>Address:</strong> @ViewBag.AdminInfo.Address</p>
+                    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+                    <style>
+                        .info-card {
+                            background-color: #f8f9fa;
+                            border-radius: 8px;
+                            padding: 20px;
+                            margin-top: 20px;
+                            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                        }
+
+                            .info-card h4 {
+                                margin-bottom: 20px;
+                                font-weight: bold;
+                                color: #343a40;
+                            }
+
+                            .info-card p {
+                                margin-bottom: 10px;
+                            }
+
+                            .info-card .label {
+                                font-weight: bold;
+                                color: #495057;
+                            }
+
+                            .info-card .value {
+                                color: #212529;
+                            }
+                    </style>
+
+                    <div class="container mt-4">
+                        <div class="info-card">
+                            <h4>Admin Information</h4>
+                            <p><span class="label">Name-Surname:</span> <span class="value">@ViewBag.AdminInfo.NameSurname</span></p>
+                            <p><span class="label">E-mail:</span> <span class="value">@ViewBag.AdminInfo.Email</span></p>
+                            <p><span class="label">Phone:</span> <span class="value">@ViewBag.AdminInfo.Phone</span></p>
+                            <p><span class="label">Date of Birth:</span> <span class="value">@ViewBag.AdminInfo.DateOfBirth.ToString("dd-MM-yyyy")</span></p>
+                            <p><span class="label">Address:</span> <span class="value">@ViewBag.AdminInfo.Address</span></p>
+                        </div>
+                    </div>
 
                     <button class="btn btn-primary edit-button">Edit</button>
                   

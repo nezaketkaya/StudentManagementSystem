@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Course Program";
+    Layout = "~/Views/Shared/StudentLayout.cshtml";
+}
+@{
+    var days = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+}
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Course Title</th>
+                        @foreach (var day in days)
+                        {
+                            <th>@day</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var course in ViewBag.Courses)
+                    {
+                        <tr>
+                            <td>@course.Title</td>
+                            @foreach (var day in days)
+                            {
+                                var courseTime = "";
+
+                                foreach (var courseP in ViewBag.Courses)
+                                {
+                                    if (courseP.Day == day && courseP.Title == course.Title)
+                                    {
+                                        courseTime = courseP.Time;
+                                        break;
+                                    }
+                                }
+                                <td>@courseTime</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

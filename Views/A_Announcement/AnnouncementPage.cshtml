@@ -29,19 +29,19 @@
                 <input type="text" asp-for="Title" class="form-control" required>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-
+            <p></p>
             <div class="form-group">
                 <label asp-for="Description">Description:</label>
                 <textarea class="form-control" asp-for="Description" rows="5" required></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-
+            <p></p>
             <div class="form-group">
                 <label asp-for="File">PDF File:</label>
                 <input type="file" asp-for="File" class="form-control-file">
                 <span asp-validation-for="File" class="text-danger"></span>
             </div>
-
+            <p></p>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

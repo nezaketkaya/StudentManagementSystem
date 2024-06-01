@@ -1,39 +1,48 @@
 ﻿@model StudentManagementSystem.Models.Student
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
-@{
-    ViewBag.Title = "Login";
-}
 @{
     ViewBag.Title = "Login";
 }
 
-<h2>Login</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center my-4">Login</h2>
 
-<form method="post" action="/Login/Login">
-    <div>
-        <label>Student Number:</label>
-        <input type="text" name="number" required />
-    </div>
-    <div>
-        <label>Password:</label>
-        <input type="text" name="password" required />
-    </div>
-    <button type="submit">Login</button>
-</form>
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
 
-@if (ViewBag.Error != null)
-{
-    <div style="color:red">@ViewBag.Error</div>
-}
+            <form method="post" action="/Login/Login">
+                <div class="form-group">
+                    <label for="number">Student Number:</label>
+                    <input type="text" class="form-control" id="number" name="number" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" required />
+                </div>
+                <p></p>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="text-danger mt-3">@ViewBag.Error</div>
+            }
+
+            <div class="text-center mt-3">
+                <a href="/Login/LoginAdmin" class="btn btn-secondary">Admin Login</a>
+            </div>
+        </div>
+    </div>
+</div>
