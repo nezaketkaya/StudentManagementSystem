@@ -45,6 +45,20 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                
+        <label asp-for="AdvisorId" class="control-label">Advisor</label>
+        <select asp-for="AdvisorId" class="form-control">
+            <option value="">Select Advisor</option>
+            @foreach (var advisor in ViewBag.Advisors)
+            {
+                <option value="@advisor.Id">@advisor.Name</option>
+            }
+        </select>
+        <span asp-validation-for="AdvisorId" class="text-danger"></span>
+
+    </div>
+
         </div>
         <div class="col-md-4 offset-md-2">
             <div class="form-group">

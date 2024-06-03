@@ -1,0 +1,37 @@
+﻿@model List<Student>
+@{
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<h2>Student and Advisor Information</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student Number</th>
+            <th>Student Name</th>
+            <th>Student Gender</th>
+            <th>Student Date of Birth</th>
+            <th>Student Phone</th>
+            <th>Student Email</th>
+            <th>Student Address</th>
+            <th>Advisor Name</th>
+            <th>Advisor Department</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Number</td>
+                <td>@student.NameSurname</td>
+                <td>@student.Gender</td>
+                <td>@student.DateOfBirth</td>
+                <td>@student.Phone</td>
+                <td>@student.Email</td>
+                <td>@student.Address</td>
+                <td>@student.Advisor.Name</td>
+                <td>@student.Advisor.Department</td>
+            </tr>
+        }
+    </tbody>
+</table>

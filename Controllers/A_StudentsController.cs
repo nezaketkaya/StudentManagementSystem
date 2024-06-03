@@ -17,6 +17,9 @@ namespace StudentManagementSystem.Controllers
         [HttpGet]
         public IActionResult StudentInfo()
         {
+            var advisors = _context.Advisors.FromSqlRaw("SELECT * FROM Advisors").ToList();
+            ViewBag.Advisors = advisors;
+
             var students = _context.Students.FromSqlRaw("SELECT * FROM Students").ToList();
             ViewBag.StudentsInfo = students;
 
@@ -31,7 +34,7 @@ namespace StudentManagementSystem.Controllers
                 if (ModelState.IsValid)
                 {
                     string sql = @"
-                INSERT INTO Students (Number, NameSurname, Gender, DateOfBirth, Phone, Email, Address, Password, Role)
+                INSERT INTO Students (Number, NameSurname, Gender, DateOfBirth, Phone, Email, Address, Password, AdvisorId)
                 VALUES ({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8})";
 
                     _context.Database.ExecuteSqlRaw(
@@ -44,7 +47,7 @@ namespace StudentManagementSystem.Controllers
                         newStudent.Email,
                         newStudent.Address,
                         newStudent.Password,
-                        "student" 
+                        newStudent.AdvisorId
                     );
 
                     TempData["SuccessMessage"] = "Student has been successfully saved.";
@@ -78,6 +81,16 @@ namespace StudentManagementSystem.Controllers
             }
             return RedirectToAction("StudentInfo");
         }
+
+        public IActionResult GetStudentAdvisor()
+        {
+            var studentAdvisorList = _context.Students
+                .Include(s => s.Advisor)
+                .ToList();
+
+            return View(studentAdvisorList);
+        }
+
 
     }
 }

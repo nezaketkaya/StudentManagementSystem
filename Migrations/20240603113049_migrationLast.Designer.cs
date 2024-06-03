@@ -12,8 +12,8 @@ using StudentManagementSystem.Models;
 namespace StudentManagementSystem.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240603105033_last")]
-    partial class last
+    [Migration("20240603113049_migrationLast")]
+    partial class migrationLast
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,6 +59,25 @@ namespace StudentManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Models.Advisor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Department")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Advisors");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Models.Announcement", b =>
@@ -119,6 +138,9 @@ namespace StudentManagementSystem.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("AdvisorId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
@@ -145,6 +167,8 @@ namespace StudentManagementSystem.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AdvisorId");
+
                     b.HasIndex("CourseId");
 
                     b.ToTable("Students");
@@ -152,9 +176,22 @@ namespace StudentManagementSystem.Migrations
 
             modelBuilder.Entity("StudentManagementSystem.Models.Student", b =>
                 {
+                    b.HasOne("StudentManagementSystem.Models.Advisor", "Advisor")
+                        .WithMany("Students")
+                        .HasForeignKey("AdvisorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("StudentManagementSystem.Models.Course", null)
                         .WithMany("Students")
                         .HasForeignKey("CourseId");
+
+                    b.Navigation("Advisor");
+                });
+
+            modelBuilder.Entity("StudentManagementSystem.Models.Advisor", b =>
+                {
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("StudentManagementSystem.Models.Course", b =>

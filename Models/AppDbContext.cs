@@ -11,5 +11,15 @@ namespace StudentManagementSystem.Models
         public DbSet<Announcement> Announcements { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Advisor> Advisors { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Advisor>()
+                .HasMany(a => a.Students)
+                .WithOne(s => s.Advisor)
+                .HasForeignKey(s => s.AdvisorId);
+        }
     }
 }
