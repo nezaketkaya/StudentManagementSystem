@@ -15,12 +15,12 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GradeManagement()
+        public IActionResult GradeManagement()
         {
             var viewModel = new GradeViewModel
             {
-                Students = await _context.Students.ToListAsync(),
-                Courses = await _context.Courses.ToListAsync(),
+                Students = _context.Students.ToList(),
+                Courses =  _context.Courses.ToList(),
                 NewGrade = new Grade()
             };
             return View(viewModel);
@@ -45,7 +45,7 @@ namespace StudentManagementSystem.Controllers
                 NewGrade = new Grade { StudentCourseId = studentCourse.Id }
             };
 
-            return View("GradeManagement", viewModel);
+            return RedirectToAction("GradeManagement", viewModel);
         }
 
         [HttpPost]
@@ -65,7 +65,7 @@ namespace StudentManagementSystem.Controllers
                 .Where(g => g.StudentCourseId == viewModel.NewGrade.StudentCourseId)
                 .ToListAsync();
 
-            return View("GradeManagement", viewModel);
+            return RedirectToAction("GradeManagement", viewModel);
         }
     }
 }

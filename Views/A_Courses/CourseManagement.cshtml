@@ -59,8 +59,8 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Course Title</th>
                             <th>Select</th>
+                            <th>Course Title</th>
                             @foreach (var day in days)
                             {
                                 <th>@day</th>
@@ -71,10 +71,11 @@
                         @foreach (var course in ViewBag.Courses)
                         {
                             <tr>
-                                <td>@course.Title</td>
+                                
                                 <td>
                                     <input type="checkbox" name="selectedCourses" value="@course.Id" />
                                 </td>
+                                <td>@course.Title</td>
                                 @foreach (var day in days)
                                 {
                                     var courseTime = "";

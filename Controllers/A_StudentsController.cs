@@ -71,10 +71,8 @@ namespace StudentManagementSystem.Controllers
             {
                 foreach (var studentId in selectedStudents)
                 {
-                    // SQL DELETE komutu
                     string sql = "DELETE FROM Students WHERE Id = @p0";
 
-                    // SQL sorgusunu çalıştır
                     _context.Database.ExecuteSqlRaw(sql, studentId);
                 }
             }

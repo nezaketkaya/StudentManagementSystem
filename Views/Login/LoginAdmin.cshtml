@@ -15,20 +15,21 @@
 
 <p></p>
 <div class="container">
-    <h1>Admin Login</h1>
-    <p></p>
     <div class="row">
         <div class="col-md-6 offset-md-3">
+            <p></p>
+            <p></p>
+            <h2>Admin Login</h2>
+            <p></p>
             <form method="post" asp-action="LoginAdmin">
                 <div class="form-group">
                     <label asp-for="Phone" class="float-left">Phone:</label>
-                    <p></p>
                     <div>
                         <input type="text" asp-for="Phone" class="form-control" required>
                     </div>
                     <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
-
+                <p></p>
                 <div class="form-group">
                     <label asp-for="Password" class="float-left">Password:</label>
                     <div>

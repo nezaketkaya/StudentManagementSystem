@@ -29,12 +29,12 @@ namespace StudentManagementSystem.Controllers
             var student = _context.Students.FirstOrDefault(s => s.Number == number && s.Password == password);
             if (student != null)
             {
-                HttpContext.Session.SetInt32("StudentId", student.Id); // Store student ID in session
+                HttpContext.Session.SetInt32("StudentId", student.Id);
                 return RedirectToAction("StudentInfo", "S_StudentInfo");
             }
             else
             {
-                ViewBag.Error = "Invalid email or password.";
+                ViewBag.Error = "Invalid number or password.";
                 return View();
             };
         }
@@ -62,6 +62,18 @@ namespace StudentManagementSystem.Controllers
                 }
             }
             return View(adminLoginDto);
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("StudentId");
+            return RedirectToAction("Login", "Login");
+        }
+
+       
+        public IActionResult LogoutAdmin()
+        {
+            return RedirectToAction("LoginAdmin", "Login");
         }
     }
 }

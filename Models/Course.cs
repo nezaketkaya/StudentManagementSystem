@@ -6,7 +6,6 @@
         public string Title { get; set; }
         public string Day { get; set; }
         public string Time { get; set; }
-
         public ICollection<Student> Students { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using StudentManagementSystem.Models;
 using StudentManagementSystem.Utils;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace StudentManagementSystem.Controllers
 {
@@ -21,17 +22,49 @@ namespace StudentManagementSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAnnouncement(Announcement announcement, IFormFile File)
+        public IActionResult CreateAnnouncement(Announcement announcement, IFormFile File)
         {
             if (ModelState.IsValid)
             {
                 announcement.Date = DateTime.Now;
                 announcement.File = FileHelper.FileLoader(File);
                 _context.Announcements.Add(announcement);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
                 return RedirectToAction("AnnouncementPage");
             }
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetAnnouncement() 
+        {
+            var announcements = _context.Announcements
+                .FromSqlRaw("SELECT * FROM Announcements ORDER BY Date DESC").ToList();
+
+            foreach (var announcement in announcements)
+            {
+                if (!string.IsNullOrEmpty(announcement.File))
+                {
+                    announcement.File = $"/pdf/{announcement.File}";
+                }
+            }
+
+            return View(announcements);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteAnnouncement(List<int> selectedAnnouncement)
+        {
+            if (selectedAnnouncement != null && selectedAnnouncement.Any())
+            {
+                foreach (var announcementId in selectedAnnouncement)
+                {
+                    string sql = "DELETE FROM Announcements WHERE Id = @p0";
+
+                    _context.Database.ExecuteSqlRaw(sql, announcementId);
+                }
+            }
+            return RedirectToAction("GetAnnouncement");
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿@model StudentManagementSystem.Models.ViewModel.GradeViewModel
 
-
 @{
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
@@ -13,7 +12,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="SelectStudentCourse" method="post">
+        <form asp-action="GradeManagement" method="post">
             <div class="form-group">
                 <label asp-for="StudentId" class="control-label">Select Student</label>
                 <select asp-for="StudentId" class="form-control" asp-items="@(new SelectList(Model.Students, "Id", "NameSurname"))">

@@ -17,7 +17,6 @@ namespace StudentManagementSystem.Controllers
         {
             var announcements = _context.Announcements.FromSqlRaw("SELECT * FROM Announcements ORDER BY Date DESC").ToList();
 
-            // Update file paths to include the relative path to the wwwroot/pdf directory
             foreach (var announcement in announcements)
             {
                 if (!string.IsNullOrEmpty(announcement.File))
